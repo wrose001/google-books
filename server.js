@@ -1,9 +1,8 @@
+// express
 const express = require("express");
-
-const mongoose = require("mongoose");
-const routes = require("./routes");
 const app = express();
-const PORT = process.env.PORT || 3001;
+// routes
+const routes = require("./routes");
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -15,9 +14,14 @@ if (process.env.NODE_ENV === "production") {
 // Add routes, both API and view
 app.use(routes);
 
-// Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist");
+// MongoDB
+const mongoose = require("mongoose");
+// Connect to the MongoDB
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks", { useNewUrlParser: true,
+useFindAndModify: false });
 
+// port
+const PORT = process.env.PORT || 3001;
 // Start the API server
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
